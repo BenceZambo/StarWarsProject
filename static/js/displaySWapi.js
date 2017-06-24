@@ -1,12 +1,13 @@
-var displayRequest = new XMLHttpRequest();
-var table = document.getElementById('planet-table');
-var counter = 1;
-displayRequest.open('GET', 'http://swapi.co/api/planets/?page=' + counter);
-displayRequest.onload = function() {
-    var pageData = JSON.parse(displayRequest.responseText);
-    renderTableHTML(pageData)
-}
 
+
+function apiRequest(displayRequest, counter){
+    displayRequest.open('GET', 'http://swapi.co/api/planets/?page=' + counter);
+    displayRequest.onload = function() {
+        var pageData = JSON.parse(displayRequest.responseText);
+        renderTableHTML(pageData)
+    }
+    displayRequest.send();
+}
 
 function removeElementsByClass(className){
     var elements = document.getElementsByClassName(className);
@@ -16,36 +17,29 @@ function removeElementsByClass(className){
 }
 
 
-document.getElementById('next-button').onclick = function nextPage(){
+function nextPage(displayRequest, counter){
     counter++;
+    console.log(counter);
     if(counter >= 8){
         counter = 7;
     }
-    displayRequest.open('GET', 'http://swapi.co/api/planets/?page=' + counter);
-    displayRequest.onload = function() {
-        var pageData = JSON.parse(displayRequest.responseText);
-        renderTableHTML(pageData);
-    }
-    displayRequest.send();
+    apiRequest(displayRequest, counter);
 }
 
 
-document.getElementById('previous-button').onclick = function previousPage(){
+function previousPage(displayRequest, counter){
     counter--;
+    console.log(counter);
     if(counter <=0){
         counter = 1;
     }
-    displayRequest.open('GET', 'http://swapi.co/api/planets/?page=' + counter);
-    displayRequest.onload = function() {
-        var pageData = JSON.parse(displayRequest.responseText);
-        renderTableHTML(pageData);
-    }
-    displayRequest.send();
+    apiRequest(displayRequest, counter);
 }
 
 
 function renderTableHTML(pageData){
     removeElementsByClass("planet")
+    var table = document.getElementById('planet-table');
     var htmlElement = '';
     let planets = pageData.results;
     for(let i = 0; i < planets.length; i++){
@@ -55,9 +49,21 @@ function renderTableHTML(pageData){
         htmlElement += '<td>' + planets[i].gravity + '</td>';
         htmlElement += '<td>' + planets[i].terrain + '</td>';
         htmlElement += '<td>' + planets[i].surface_water + '</td>';
-        htmlElement += '<td>' + planets[i].population + '</td>' + '</tr>';
+        htmlElement += '<td>' + planets[i].population + '</td>';
+        htmlElement += '<td><button id="myBtn" data-url=' + planets[i].residents + '>Open Modal</button></td></tr>';
+
     }
     table.insertAdjacentHTML('beforeend', htmlElement);
 }
 
-displayRequest.send();
+
+function main(){
+    var displayRequest = new XMLHttpRequest();
+    var counter = 1;
+    console.log(counter);
+    apiRequest(displayRequest, counter);
+    document.getElementById('next-button').onclick = function() {nextPage(displayRequest, counter)};
+    document.getElementById('previous-button').onclick = function() {previousPage(displayRequest, counter)};
+}
+
+$(document).ready(main);
