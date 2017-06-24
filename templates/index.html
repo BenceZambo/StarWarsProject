@@ -2,6 +2,7 @@
 <html>
     <head>
         <title>Star Wars Planets</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" type="text/css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script src="/static/js/displaySWapi.js" defer></script>
     </head>
@@ -21,4 +22,39 @@
                 <th>Residents</th>
             </tr>
         </table>
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Residents</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Height</th>
+                                    <th>Mass</th>
+                                    <th>Skin color</th>
+                                    <th>Hair color</th>
+                                    <th>Eye color</th>
+                                    <th>Birth year</th>
+                                    <th>Gender</th>
+                                </tr>
+                            </thead>
+                            <tbody id="residents-modal">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
     </body>

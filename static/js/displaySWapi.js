@@ -42,6 +42,7 @@ function renderTableHTML(pageData){
     var table = document.getElementById('planet-table');
     var htmlElement = '';
     let planets = pageData.results;
+    let idCounter = 1;
     for(let i = 0; i < planets.length; i++){
         htmlElement += '<tr class="planet">' + '<td>' + planets[i].name + '</td>';
         htmlElement += '<td>' + planets[i].diameter + '</td>';
@@ -50,11 +51,27 @@ function renderTableHTML(pageData){
         htmlElement += '<td>' + planets[i].terrain + '</td>';
         htmlElement += '<td>' + planets[i].surface_water + '</td>';
         htmlElement += '<td>' + planets[i].population + '</td>';
-        htmlElement += '<td><button id="myBtn" data-url=' + planets[i].residents + '>Open Modal</button></td></tr>';
+        htmlElement += '<td><button class="modal-btn" id="' + idCounter + '"' + 'data-url=' + planets[i].residents + '>Open Modal</button></td></tr>';
+        idCounter += 1;
 
     }
     table.insertAdjacentHTML('beforeend', htmlElement);
 }
+
+
+function renderPopUp(arrayWithURLs){
+    let lengthOfArray = arrayWithURLs.length
+    for(let j = 0; j < lengthOfArray; j++){
+        let displayResidentsRequest = new XMLHttpRequest();
+        displayResidentsRequest.open('GET', arrayWithURLs[j]);
+        displayResidentsRequest.onload = displayResidentsPage() {
+            var residentsData = JSON.parse(displayResidentsRequest.responseText);
+            
+        }
+        displayRequest.send();
+    }
+}
+
 
 
 function main(){
@@ -65,5 +82,12 @@ function main(){
     document.getElementById('next-button').onclick = function() {nextPage(displayRequest, counter)};
     document.getElementById('previous-button').onclick = function() {previousPage(displayRequest, counter)};
 }
+
+$(document).on("click", ".modal-btn", function () {
+    var residentsURL = $(this).data("url");
+    var residentsURLArray = residentsURL.split(',');
+    renderPopUp(residentsURLArray);
+    
+});
 
 $(document).ready(main);
