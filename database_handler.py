@@ -10,9 +10,9 @@ def connect_db(connect_data):
     try:
         conn = psycopg2.connect(connect_data)
         return conn
-    except Exception as error:
-        print(error)
-        return 'connection error'
+    except:
+        result = 'Could not connect to database'
+        return result
 
 
 def handle_database(query):
@@ -21,8 +21,7 @@ def handle_database(query):
     connect_data = "dbname={0} user={1} password={2} host={3}".format(DATABASE, USER, PASSWORD, HOST)
     connection = connect_db(connect_data)
     if connection == 'connection error':
-        result = 'Connection error. Server unreachable.'
-        return result
+        return'Could not connect to database'
     else:
         try:
             connection.autocommit = True
@@ -31,7 +30,6 @@ def handle_database(query):
             if "SELECT" in query:
                 result = cursor.fetchall()
             cursor.close()
-        except Exception as error:
-            result = error
-            print(error)
+        except:
+            result = 'Could not connect to database'
         return result
