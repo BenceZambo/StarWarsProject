@@ -1,4 +1,4 @@
-
+var counter = 1;
 
 function apiRequest(displayRequest, counter){
     displayRequest.open('GET', 'http://swapi.co/api/planets/?page=' + counter);
@@ -17,22 +17,21 @@ function removeElementsByClass(className){
 }
 
 
-function nextPage(displayRequest, counter){
+function nextPage(displayRequest, counterPage){
     counter++;
-    console.log(counter);
     if(counter >= 8){
         counter = 7;
     }
-    apiRequest(displayRequest, counter);
+    apiRequest(displayRequest, counterPage);
 }
 
 
-function previousPage(displayRequest, counter){
+function previousPage(displayRequest, counterPage){
     counter--;
     if(counter <=0){
         counter = 1;
     }
-    apiRequest(displayRequest, counter);
+    apiRequest(displayRequest, counterPage);
 }
 
 
@@ -89,7 +88,6 @@ function renderPopUp(arrayWithURLs){
 
 function main(){
     var displayRequest = new XMLHttpRequest();
-    var counter = 1;
     console.log(counter);
     apiRequest(displayRequest, counter);
     document.getElementById('next-button').onclick = function() {nextPage(displayRequest, counter)};
